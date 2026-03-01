@@ -1,1 +1,6 @@
-
+[
+  {"char":"😀","name":"😀","tags":["emoji"]},
+  {"char":"😃","name":"😃","tags":["emoji"]},
+  {"char":"😄","name":"😄","tags":["emoji"]}
+  // adicione os outros emojis que deseja
+]
