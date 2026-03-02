@@ -10,6 +10,8 @@ const grid = document.getElementById("grid");
 const emptyState = document.getElementById("emptyState");
 const searchInput = document.getElementById("searchInput");
 const tabs = Array.from(document.querySelectorAll(".tab"));
+const toast = createToast();
+let toastTimeout;
 
 async function loadData() {
   const [iconsResponse, emojisResponse] = await Promise.all([
@@ -27,6 +29,51 @@ async function loadData() {
   }));
 
   render();
+}
+
+function createToast() {
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.setAttribute("aria-live", "polite");
+  document.body.appendChild(el);
+  return el;
+}
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 1400);
+}
+
+async function copyToClipboard(text) {
+  if (!text) return false;
+
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch (_) {
+    // fallback abaixo
+  }
+
+  try {
+    const helper = document.createElement("textarea");
+    helper.value = text;
+    helper.setAttribute("readonly", "");
+    helper.style.position = "fixed";
+    helper.style.opacity = "0";
+    document.body.appendChild(helper);
+    helper.select();
+    const copied = document.execCommand("copy");
+    document.body.removeChild(helper);
+    return copied;
+  } catch (_) {
+    return false;
+  }
 }
 
 function normalize(value) {
@@ -65,7 +112,12 @@ function createIconCard(icon, index) {
     <span class="name">${icon.name}</span>
   `;
 
-  card.addEventListener("click", () => toggleSelected(id));
+  card.addEventListener("click", async () => {
+    toggleSelected(id);
+    const copied = await copyToClipboard(icon.svg);
+    showToast(copied ? `Ícone "${icon.name}" copiado!` : "Não foi possível copiar o ícone.");
+  });
+
   return card;
 }
 
@@ -81,7 +133,12 @@ function createEmojiCard(emojiItem, index) {
     <span class="name">${emojiItem.name}</span>
   `;
 
-  card.addEventListener("click", () => toggleSelected(id));
+  card.addEventListener("click", async () => {
+    toggleSelected(id);
+    const copied = await copyToClipboard(emojiItem.emoji);
+    showToast(copied ? `Emoji ${emojiItem.emoji} copiado!` : "Não foi possível copiar o emoji.");
+  });
+
   return card;
 }
 
