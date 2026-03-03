@@ -1,3 +1,5 @@
+![logo icon library](ico/PNGfavicon.png)
+
 ## a simple library of icons and emojis
 
 emojis and icons stored in a json file
