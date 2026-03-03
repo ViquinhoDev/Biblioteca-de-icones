@@ -8,6 +8,17 @@ emojis and icons stored in a json file
 
 **Developer: ViquinhoDev**
 
+
+
+
+| Cabeçalho 1 | Cabeçalho 2 |
+| ----------- | ----------- |
+| ✅ 1.0 | created the page in html |
+| ✅ 1.2 | Basic functionality for emojis and icons has been created. (bugs in the paste function) |
+| ✅ 1.4 | reimagined desing (and fixed a bug in the copy functionality)  |
+| ✅ 1.5.6 |  Add more icons, light/dark theme, and groups.  |
+
+
 **version history:**
 
 ✅ 1.0 - created the page in html
